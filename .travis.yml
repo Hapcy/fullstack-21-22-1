@@ -1,0 +1,24 @@
+jobs:
+  include:
+
+  - stage: test
+    language: node_js
+    node_js: node
+    cache:
+      directories:
+        - node_modules
+    before_install: cd issue-tracker-nest
+    script: npm run test && npm run test:e2e
+
+  - stage: deploy
+    language: node_js
+    node_js: node
+    before_install: cd issue-tracker-nest
+    install: skip
+    script: skip
+    deploy:
+      provider: heroku
+      api_key:
+        secure: "j98+DO+EPntdjS0J5+7aS7R4aMflBHvgUY9uuADdKqrzdVsN+iysIaMEDyh+3tmvr5DrvSBm0vsn4Spt4O8CvU5DXc8sPARrhsCQW+S38SrCBWemNK0c7wt3JE7gBSJIgFMqPjtWv5B92Fo8V2Tf44YY8uzDKlIwHtT1Mr3cw71bLX+oCFYAGcOIqNmMgbr9r1htZMeeLVu61AkMWmbduVLHj6KvrcG1vNZMZvjyedxsRyFwS35ttdxXjo5d8W8Ojqt+YL6/7NJQvXOvxY68v8FhVoCpd3/7l15NoYO7pXyRs04jVV9/IJTSssjMK9r9JBzdyGZQ6UvPlmJPIjsUflGc2Egyvh1Skl78vlcKTpS9z3a/x0SAUYrO4YQL3uzjalo1g6SdGCWAHyAod21d9fyhLwjkqVtayE9ehcZDyKAcWpQzvqJBR489tm8wmHU5OUZERSpc7O1UdnLNxTwLp/GchIALjrwkeKA1wlgTc9LDahaL0cyk+IoV6qJhoPZh52qeRyZgRdySocIX7V5/1uwNCwLVGFGaxFNUzxpTuRTOT+lDm8NoGpBwdNZweuuKrSO+0coRzLYGzoQ02Josj3vIp6UZqO9FXR8AYCqz8nWTGNpv2vZocZDz5WLbHNXRxphpQVsXsr7CIzK3kSC80kc56vvNySF0rl7KAG88Avk="
+      app: fullstack-21-22-1-ts
+      on: main
