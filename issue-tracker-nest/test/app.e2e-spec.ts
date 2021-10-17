@@ -15,7 +15,6 @@ describe('Issue Tracker', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
-    app.useLogger(['error']);
     await app.init();
 
     requestHandle = request(app.getHttpServer());
