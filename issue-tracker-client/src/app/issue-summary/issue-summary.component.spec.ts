@@ -4,9 +4,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { IssueStatus } from '../core/issue';
 import { UserRole } from '../core/user';
 import { UserService } from '../core/user.service';
-import { first } from 'rxjs/operators';
+import { first, mapTo } from 'rxjs/operators';
 
 import { IssueSummaryComponent } from './issue-summary.component';
+import { race, timer } from 'rxjs';
 
 describe('IssueSummaryComponent', () => {
   let component: IssueSummaryComponent;
@@ -49,8 +50,11 @@ describe('IssueSummaryComponent', () => {
   });
 
   it('should emit editIssue when clicking on edit issue', () => {
-    component.editIssue.pipe(first()).subscribe(() => {
-      expect(true).toBe(true);
+    race(
+      component.editIssue.pipe(first(), mapTo(true)),
+      timer(100).pipe(mapTo(false)),
+    ).subscribe((result) => {
+      expect(result).toBe(true);
     });
     const editIssueButton = fixture.debugElement.query(By.css('#editIssue'));
     editIssueButton.triggerEventHandler('click', null);
